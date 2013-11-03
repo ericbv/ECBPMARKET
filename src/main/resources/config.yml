@@ -1,0 +1,420 @@
+wood:
+    value: -0.55
+    number: 17
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+blazerod:
+    value: 12.64
+    number: 369
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+spidereye:
+    value: 9.97
+    number: 375
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+netherwart:
+    value: 9.66
+    number: 372
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+ghasttear:
+    value: 10
+    number: 370
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+ink:
+    value: 9.33
+    number: 351
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+lapis:
+    value: 0.02
+    number: 351
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '4'
+cocoa:
+    value: 10.09
+    number: 351
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '3'
+spruce:
+    value: 0.02
+    number: 17
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '1'
+birch:
+    value: 0.02
+    number: 17
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '2'
+fish:
+    value: 9.83
+    number: 349
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+beef:
+    value: 3.78
+    number: 363
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+stone:
+    value: 1.29
+    number: 1
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+egg:
+    value: 9.67
+    number: 344
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+feather:
+    value: 15.13
+    number: 288
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+soulsand:
+    value: 2.59
+    number: 88
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+rottenflesh:
+    value: 6.93
+    number: 367
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+slime:
+    value: 9.26
+    number: 341
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+obsidian:
+    value: 15.57
+    number: 49
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+flint:
+    value: 7.33
+    number: 318
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+snow:
+    value: 0.02
+    number: 332
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+brownmushroom:
+    value: 5.28
+    number: 39
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+dirt:
+    value: -97.87
+    number: 3
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+wool:
+    value: 8.99
+    number: 35
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+leather:
+    value: 6.7
+    number: 334
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+cobblestone:
+    value: -132.52
+    number: 4
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+mossstone:
+    value: 9.59
+    number: 48
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+grass:
+    value: 9.96
+    number: 31
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+vine:
+    value: 8.51
+    number: 106
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+rose:
+    value: 10.53
+    number: 38
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+apple:
+    value: 10.01
+    number: 260
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+pork:
+    value: 8.86
+    number: 319
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+pumpkin:
+    value: 8.36
+    number: 86
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+pumpkinseeds:
+    value: 9.95
+    number: 361
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+clay:
+    value: 0.02
+    number: 337
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+gunpowder:
+    value: 11.94
+    number: 289
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+sandstone:
+    value: 0.02
+    number: 24
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+melonseeds:
+    value: 0.02
+    number: 362
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+melon:
+    value: 0.29
+    number: 360
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+gravel:
+    value: -8.94
+    number: 13
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+sugarcane:
+    value: 0.02
+    number: 338
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+iron:
+    value: 9.6
+    number: 265
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+chicken:
+    value: 9.0
+    number: 365
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+coal:
+    value: 0.29
+    number: 263
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+glowstone:
+    value: 2.86
+    number: 348
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+diamond:
+    value: 24.79
+    number: 264
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+bone:
+    value: 9.03
+    number: 352
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+netherrack:
+    value: -10.5
+    number: 87
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+seeds:
+    value: -6.98
+    number: 295
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+gold:
+    value: 15.09
+    number: 266
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+sand:
+    value: -4.64
+    number: 12
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+sapling:
+    value: -10.53
+    number: 6
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+sprucesapling:
+    value: -3.45
+    number: 6
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '1'
+birchsapling:
+    value: -3.68
+    number: 6
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '2'
+dandelion:
+    value: 5.43
+    number: 37
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+redmushroom:
+    value: 6.0
+    number: 40
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+enderpearl:
+    value: 9.87
+    number: 368
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+string:
+    value: 3.42
+    number: 287
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+redstone:
+    value: -2.63
+    number: 331
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
+cactus:
+    value: 0.24
+    number: 81
+    minValue: 0.01
+    maxValue: 10000.0
+    changeRate: 0.01
+    data: '0'
