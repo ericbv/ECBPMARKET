@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -18,6 +19,12 @@ import nl.ecbp.ECBPMARKET.model.Commodity;
  */
 public class PersistanceController {
 	private ECBPMarket plugin;
+	
+	
+	public PersistanceController(ECBPMarket plugin) {
+		this.plugin = plugin;
+	}
+	
 	public void Save(Commodity c) {
 		Gson gson = new Gson();
 	 
@@ -53,9 +60,15 @@ public class PersistanceController {
 		return null;
 	}
 	
+
+
 	public List<Commodity> loadAll(String name) {
-		
-		return null;
+		List<Commodity> list = new ArrayList<Commodity>();
+		File basedir = new File(plugin.getDataFolder()+ File.separator + "Commodities");
+		for(String filename:basedir.list()){
+			list.add(load(filename));
+		}
+		return list;
 	}
 	
 	public boolean exists(Commodity c){
