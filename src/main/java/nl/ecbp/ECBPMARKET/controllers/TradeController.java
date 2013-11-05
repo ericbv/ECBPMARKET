@@ -21,37 +21,68 @@ public class TradeController {
 	private CommodityStore store;
 	private CommodityPersister persister;
 	private ECBPMarket plugin;
-	
-	public TradeController(CommodityStore store,CommodityPersister persister,ECBPMarket plugin){
+
+	public TradeController(CommodityStore store, CommodityPersister persister,
+			ECBPMarket plugin) {
 		this.store = store;
-		this.persister =persister;
-		this.plugin =plugin;
-	}
-	public Recipient sell(Player p,String item, int amount)throws    NotEnoughItemsException, CommodityNotFoundException, InvalidAmountException {
-		Commodity c = store.getComodity(item);
-		WalletHelper wallet =new WalletHelper(p,plugin);
-		double oldBalance = wallet.getPlayerMoney(); 
-		Order o = new OrderConstructor().GenerateOrder(false,c,amount);
-		new InventoryHelper(p).takeComodityFromPlayer(c, amount);
-		wallet.givePlayerMoney(o.getTotal());
-		c.setValue(o.getCurrentPrice());
-		persister.Persist(c);
-		return new Recipient(o.getTotal(),oldBalance,wallet.getPlayerMoney(),o.getCurrentPrice());
+		this.persister = persister;
+		this.plugin = plugin;
 	}
 
-	public Recipient buy(Player p,String item, int amount) throws  NotEnoughMoneyException, CommodityNotFoundException {
+	public Recipient sell(Player p, String item, int amount)
+			throws NotEnoughItemsException, CommodityNotFoundException,
+			InvalidAmountException {
+		try {
+			return doTheTrade(false, p, item, amount);
+		} catch (NotEnoughMoneyException e) {
+			// will not occur ever period.
+		}
+		return null;
+	}
+
+	public Recipient buy(Player p, String item, int amount)
+			throws NotEnoughMoneyException, CommodityNotFoundException {
+		try {
+			return doTheTrade(true, p, item, amount);
+		} catch (NotEnoughItemsException e) {
+			// will not occur ever period.
+		} catch (InvalidAmountException e) {
+			// will not occur ever period.
+		}
+		return null;
+
+	}
+
+	public double price(String item) throws CommodityNotFoundException {
+		return store.getComodity(item).getValue();
+	}
+
+	
+	private Recipient doTheTrade(boolean buy, Player p, String item, int amount)
+			throws CommodityNotFoundException, NotEnoughMoneyException,
+			NotEnoughItemsException, InvalidAmountException {
+		
 		Commodity c = store.getComodity(item);
-		WalletHelper wallet =new WalletHelper(p,plugin);
-		double oldBalance = wallet.getPlayerMoney(); 
-		Order o = new OrderConstructor().GenerateOrder(true,c,amount);
+		WalletHelper wallet = new WalletHelper(p, plugin);
+		double oldBalance = wallet.getPlayerMoney();
+		Order o = new OrderConstructor().GenerateOrder(buy, c, amount);
+		if (buy) 
+			doBuyPart(p, o, wallet, amount, c);
+		else 
+			doSellPart(p, o, wallet, amount, c);
+		c.setValue(o.getCurrentPrice());
+		persister.Persist(c);
+		return new Recipient(o.getTotal(), oldBalance, wallet.getPlayerMoney(),
+				o.getCurrentPrice());
+	}
+	
+	private void doBuyPart(Player p,Order o,WalletHelper wallet,int amount,Commodity c) throws NotEnoughMoneyException{
 		new InventoryHelper(p).giveCommodityToPlayer(c, amount);
 		wallet.takePlayerMoney(o.getTotal());
-		c.setValue(o.getCurrentPrice());
-		persister.Persist(c);
-		return new Recipient(o.getTotal(),oldBalance,wallet.getPlayerMoney(),o.getCurrentPrice());
-
 	}
-	public double price(String item) throws CommodityNotFoundException{
-		return store.getComodity(item).getValue();
+	
+	private void doSellPart(Player p,Order o,WalletHelper wallet,int amount,Commodity c) throws NotEnoughItemsException, InvalidAmountException{
+		new InventoryHelper(p).takeComodityFromPlayer(c, amount);
+		wallet.givePlayerMoney(o.getTotal());
 	}
 }
