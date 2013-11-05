@@ -7,6 +7,7 @@ import net.milkbowl.vault.permission.Permission;
 import nl.ecbp.ECBPMARKET.controllers.TradeController;
 import nl.ecbp.ECBPMARKET.db.ComodityPersister;
 import nl.ecbp.ECBPMARKET.db.PersistanceController;
+import nl.ecbp.ECBPMARKET.model.Commodity;
 import nl.ecbp.ECBPMARKET.model.store.CommodityStore;
 import nl.ecbp.ECBPMARKET.views.commands.BuyCommand;
 import nl.ecbp.ECBPMARKET.views.commands.SellCommand;
@@ -33,9 +34,12 @@ public class ECBPMarket extends JavaPlugin {
 		setupEconomy(); // Smickles thinks this is what we're supposed to do for
 						// economy via vault
 		setupDB();
+		//TODO REMOVE TEST STUFF
+		Commodity c = new Commodity(12,"sand",100.0,10000.0,0.01,0.01,0);
+		new ComodityPersister(this).Persist(c);
 		logger.info(pluginFile.getName() + " version "
 				+ pluginFile.getVersion() + " enabled");
-		TradeController con = new TradeController(new CommodityStore(), new ComodityPersister(this));
+		TradeController con = new TradeController(new CommodityStore(db), new ComodityPersister(this),this);
 		getCommand("sell").setExecutor(new SellCommand(this, con));
 		getCommand("buy").setExecutor(new BuyCommand(this, con));
 	}

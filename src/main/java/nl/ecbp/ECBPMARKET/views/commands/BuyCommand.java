@@ -40,7 +40,7 @@ public class BuyCommand implements CommandExecutor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 
 	private boolean executeBuyCommand(CommandSender sender, Command command,

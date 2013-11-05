@@ -6,24 +6,29 @@ import com.avaje.ebean.validation.NotEmpty;
 import com.avaje.ebean.validation.NotNull;
 
 public class Commodity {
-    @Id
     private int id;
-    @NotEmpty
     private String name;
-    @NotNull
     private double value;
-    @NotNull
-    private int number;
-    @NotNull
     private double maxValue;
-    @NotNull 
     private double minValue;
-    @NotNull
     private double changeRate;
-	@NotNull
     private int data;
     
-    public int getId() {
+	
+	
+    public Commodity(int id, String name, double value,
+			double maxValue, double minValue, double changeRate, int data) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.value = value;
+		this.maxValue = maxValue;
+		this.minValue = minValue;
+		this.changeRate = changeRate;
+		this.data = data;
+	}
+    
+	public int getId() {
         return id;
     }
     public void setId(int id) {
@@ -40,12 +45,6 @@ public class Commodity {
     }
     public void setValue(double value) {
         this.value = value;
-    }
-    public int getNumber() {
-        return number;
-    }
-    public void setNumber(int number) {
-        this.number = number;
     }
     public double getMaxValue() {
         return maxValue;
@@ -76,7 +75,6 @@ public class Commodity {
     public String toString() {
     	return "id " + id
     			+ " name " + name
-    			+ " number " + number
     			+ " data " + data
     			+ " value " + value
     			+ " minvalue " + minValue

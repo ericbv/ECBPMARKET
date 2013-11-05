@@ -16,11 +16,11 @@ public class OrderConstructor {
 			BigDecimal changeRate = BigDecimal.valueOf(commodity
 					.getChangeRate());
 			o.addTotal(o.getCurrentPrice());// add the minimum to total
-			if (!buy) {
-				o.subtractPrice(o.getCurrentPrice() * commodity.getChangeRate());
+			if (buy) {
+				o.addPrice(o.getCurrentPrice() * commodity.getChangeRate());
 
 			} else {
-				o.addPrice(o.getCurrentPrice() * changeRate.doubleValue());
+				o.subtractPrice(o.getCurrentPrice() * changeRate.doubleValue());
 			}
 			if (o.getCurrentPrice() < minValue.doubleValue()) {
 				o.setCurrentPrice(minValue.doubleValue());

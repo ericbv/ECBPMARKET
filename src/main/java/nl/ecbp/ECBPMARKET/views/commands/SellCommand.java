@@ -40,7 +40,7 @@ public class SellCommand implements CommandExecutor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	private boolean executeSellCommand(CommandSender sender, Command command,
 			String label, String[] args) throws InvalidAmountException, NotEnoughItemsException, CommodityNotFoundException, InvalidArgumentsException{
@@ -51,7 +51,6 @@ public class SellCommand implements CommandExecutor {
 				try{
 					con.sell(player, args[0].toString(), Integer.parseInt(args[1]));
 				}catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 
 			}

@@ -18,7 +18,7 @@ private Player p;
 	@SuppressWarnings("deprecation")
 	public boolean takeComodityFromPlayer(Commodity commodity,
 			int amount) throws InvalidAmountException, NotEnoughItemsException {
-		int id = commodity.getNumber();
+		int id = commodity.getId();
 		Byte byteData = Byte.valueOf(String.valueOf(commodity.getData()));
 
 		ItemStack its = new ItemStack(id, amount, (short) 0, byteData);

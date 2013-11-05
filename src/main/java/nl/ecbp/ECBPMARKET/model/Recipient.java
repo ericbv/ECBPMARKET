@@ -5,11 +5,13 @@ public class Recipient {
 private double total;
 private double oldBalance;
 private double newBalance;
+private double newPrice;
 
-public Recipient(double total,double oldBalance,double newBalance) {
+public Recipient(double total,double oldBalance,double newBalance,double newPrice) {
 	this.total = total;
 	this.oldBalance =oldBalance;
 	this.newBalance=newBalance;
+	this.newPrice =newPrice;
 }
 
 public double getTotal() {
@@ -34,6 +36,14 @@ public double getNewBalance() {
 
 public void setNewBalance(double newBalance) {
 	this.newBalance = newBalance;
+}
+
+public double getNewPrice() {
+	return newPrice;
+}
+
+public void setNewPrice(double newPrice) {
+	this.newPrice = newPrice;
 }
 
 

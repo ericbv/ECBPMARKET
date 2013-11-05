@@ -23,6 +23,10 @@ public class PersistanceController {
 	
 	public PersistanceController(ECBPMarket plugin) {
 		this.plugin = plugin;
+		File f = new File(plugin.getDataFolder() + File.separator + "Commodities");
+		if(!f.exists()){
+			f.mkdir();
+		}
 	}
 	
 	public void Save(Commodity c) {
@@ -33,7 +37,7 @@ public class PersistanceController {
 		String json = gson.toJson(c);
 		try {
 			//write converted json data to a file named "file.json"
-			FileWriter writer = new FileWriter(new File(plugin.getDataFolder() + File.separator +c.getName()));
+			FileWriter writer = new FileWriter(new File(plugin.getDataFolder() + File.separator + "Commodities" + File.separator +c.getName()));
 			writer.write(json);
 			writer.close();
 	 
@@ -62,7 +66,7 @@ public class PersistanceController {
 	
 
 
-	public List<Commodity> loadAll(String name) {
+	public List<Commodity> loadAll() {
 		List<Commodity> list = new ArrayList<Commodity>();
 		File basedir = new File(plugin.getDataFolder()+ File.separator + "Commodities");
 		for(String filename:basedir.list()){
@@ -71,9 +75,8 @@ public class PersistanceController {
 		return list;
 	}
 	
-	public boolean exists(Commodity c){
-		//TODO implement
-		return false;
-		
+	public boolean exists(String c){
+		File f = new File(plugin.getDataFolder()+ File.separator + "Commodities" + File.separator +c);
+		return f.exists();
 	}
 }
