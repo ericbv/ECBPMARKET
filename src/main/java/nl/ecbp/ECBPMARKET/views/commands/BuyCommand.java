@@ -36,7 +36,7 @@ public class BuyCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.WHITE+"[NEW PRICE]"+ChatColor.BLUE+R.getNewPrice());
 		} catch (InvalidArgumentsException e) {
 			sender.sendMessage(ChatColor.RED+"[ERROR]Wrong arguments");
-			sender.sendMessage("SYNTAX:/sell [item] [ammount]");
+			sender.sendMessage("SYNTAX:/buy [item] [ammount]");
 		} catch (InvalidAmountException e) {
 			sender.sendMessage(ChatColor.RED+"[ERROR]Thats not a Valid amount, it should be greater than 0");
 		} catch (NotEnoughMoneyException e) {
