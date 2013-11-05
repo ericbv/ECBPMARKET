@@ -122,7 +122,9 @@ private Player p;
 		return inInventory;
 	}
 	
-	public void giveCommodityToPlayer(Commodity commodity, int amount){
+	public void giveCommodityToPlayer(Commodity commodity, int amount) throws InvalidAmountException{
+		if(amount <= 0)
+			throw new InvalidAmountException();
 		// give 'em the items and drop any extra
 		Byte byteData = Byte.valueOf(String.valueOf(commodity.getData()));
 		int id = commodity.getId();

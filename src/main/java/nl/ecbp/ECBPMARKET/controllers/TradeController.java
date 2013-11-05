@@ -41,12 +41,10 @@ public class TradeController {
 	}
 
 	public Recipient buy(Player p, String item, int amount)
-			throws NotEnoughMoneyException, CommodityNotFoundException {
+			throws NotEnoughMoneyException, CommodityNotFoundException, InvalidAmountException {
 		try {
 			return doTheTrade(true, p, item, amount);
 		} catch (NotEnoughItemsException e) {
-			// will not occur ever period.
-		} catch (InvalidAmountException e) {
 			// will not occur ever period.
 		}
 		return null;
@@ -76,7 +74,7 @@ public class TradeController {
 				o.getCurrentPrice());
 	}
 	
-	private void doBuyPart(Player p,Order o,WalletHelper wallet,int amount,Commodity c) throws NotEnoughMoneyException{
+	private void doBuyPart(Player p,Order o,WalletHelper wallet,int amount,Commodity c) throws NotEnoughMoneyException, InvalidAmountException{
 		new InventoryHelper(p).giveCommodityToPlayer(c, amount);
 		wallet.takePlayerMoney(o.getTotal());
 	}
