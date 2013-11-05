@@ -1,5 +1,7 @@
 package nl.ecbp.ECBPMARKET.helpers;
 
+import java.util.HashMap;
+
 import nl.ecbp.ECBPMARKET.exceptions.InvalidAmountException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
 import nl.ecbp.ECBPMARKET.model.Commodity;
@@ -17,12 +19,14 @@ private Player p;
 	}
 	@SuppressWarnings("deprecation")
 	public boolean takeComodityFromPlayer(Commodity commodity,
-			int amount) throws  NotEnoughItemsException {
+			int amount) throws  NotEnoughItemsException, InvalidAmountException {
 		int id = commodity.getId();
 		Byte byteData = Byte.valueOf(String.valueOf(commodity.getData()));
 
 		ItemStack its = new ItemStack(id, amount, (short) 0, byteData);
-
+		if(amount <= 0){
+			throw new InvalidAmountException();
+		}
 		if (p.getInventory().contains(id)) {
 
 			// Figure out how much is left over
@@ -116,6 +120,20 @@ private Player p;
 			x++;
 		}
 		return inInventory;
+	}
+	
+	public void giveCommodityToPlayer(Commodity commodity, int amount){
+		// give 'em the items and drop any extra
+		Byte byteData = Byte.valueOf(String.valueOf(commodity.getData()));
+		int id = commodity.getId();
+
+		HashMap<Integer, ItemStack> overflow = p.getInventory()
+				.addItem(new ItemStack(id, amount, (short) 0, byteData));
+		for (int a : overflow.keySet()) {
+			p.getWorld().dropItem(p.getLocation(),
+					overflow.get(a));
+		}
+
 	}
 	/*@SuppressWarnings("deprecation")
 	public void TakeFromInventory(Commodity item,int amount) throws NotEnoughItemsException{

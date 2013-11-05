@@ -3,7 +3,7 @@ package nl.ecbp.ECBPMARKET.controllers;
 import org.bukkit.entity.Player;
 
 import nl.ecbp.ECBPMARKET.ECBPMarket;
-import nl.ecbp.ECBPMARKET.db.ComodityPersister;
+import nl.ecbp.ECBPMARKET.db.CommodityPersister;
 import nl.ecbp.ECBPMARKET.exceptions.CommodityNotFoundException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidAmountException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
@@ -19,15 +19,15 @@ import nl.ecbp.ECBPMARKET.model.store.CommodityStore;
 
 public class TradeController {
 	private CommodityStore store;
-	private ComodityPersister persister;
+	private CommodityPersister persister;
 	private ECBPMarket plugin;
 	
-	public TradeController(CommodityStore store,ComodityPersister persister,ECBPMarket plugin){
+	public TradeController(CommodityStore store,CommodityPersister persister,ECBPMarket plugin){
 		this.store = store;
 		this.persister =persister;
 		this.plugin =plugin;
 	}
-	public Recipient sell(Player p,String item, int amount)throws    NotEnoughItemsException, CommodityNotFoundException {
+	public Recipient sell(Player p,String item, int amount)throws    NotEnoughItemsException, CommodityNotFoundException, InvalidAmountException {
 		Commodity c = store.getComodity(item);
 		WalletHelper wallet =new WalletHelper(p,plugin);
 		double oldBalance = wallet.getPlayerMoney(); 
@@ -39,9 +39,19 @@ public class TradeController {
 		return new Recipient(o.getTotal(),oldBalance,wallet.getPlayerMoney(),o.getCurrentPrice());
 	}
 
-	public Recipient buy(Player p,String item, int amount) throws InvalidAmountException, NotEnoughMoneyException, NotEnoughInventoryRoomException {
-		//TODO implement
-		return null;
+	public Recipient buy(Player p,String item, int amount) throws  NotEnoughMoneyException, CommodityNotFoundException {
+		Commodity c = store.getComodity(item);
+		WalletHelper wallet =new WalletHelper(p,plugin);
+		double oldBalance = wallet.getPlayerMoney(); 
+		Order o = new OrderConstructor().GenerateOrder(true,c,amount);
+		new InventoryHelper(p).giveCommodityToPlayer(c, amount);
+		wallet.takePlayerMoney(o.getTotal());
+		c.setValue(o.getCurrentPrice());
+		persister.Persist(c);
+		return new Recipient(o.getTotal(),oldBalance,wallet.getPlayerMoney(),o.getCurrentPrice());
 
+	}
+	public double price(String item) throws CommodityNotFoundException{
+		return store.getComodity(item).getValue();
 	}
 }

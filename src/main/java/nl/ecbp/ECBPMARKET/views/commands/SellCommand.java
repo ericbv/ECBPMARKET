@@ -29,12 +29,12 @@ public class SellCommand implements CommandExecutor {
 			String label, String[] args) {
 		try {
 			Recipient R = executeSellCommand(sender, command, label, args);
-			sender.sendMessage(ChatColor.WHITE+"[Money Recieved]"+ChatColor.RED+R.getTotal());
+			sender.sendMessage(ChatColor.WHITE+"[Money Recieved]"+ChatColor.GREEN+R.getTotal());
 			sender.sendMessage(ChatColor.WHITE+"[OLD BALANCE]"+ChatColor.GRAY+R.getOldBalance());
-			sender.sendMessage(ChatColor.WHITE+"[NEW BALANCE]"+ChatColor.BLUE+R.getNewBalance());
-			sender.sendMessage(ChatColor.WHITE+"[NEW PRICE]"+ChatColor.GREEN+R.getNewPrice());
+			sender.sendMessage(ChatColor.WHITE+"[NEW BALANCE]"+ChatColor.GREEN+R.getNewBalance());
+			sender.sendMessage(ChatColor.WHITE+"[NEW PRICE]"+ChatColor.BLUE+R.getNewPrice());
 		} catch (InvalidAmountException e) {
-			sender.sendMessage(ChatColor.RED+"[ERROR]Thats not a Valid amount");
+			sender.sendMessage(ChatColor.RED+"[ERROR]Thats not a Valid amount, it should be greater than 0");
 		} catch (NotEnoughItemsException e) {
 			sender.sendMessage(ChatColor.RED+"[ERROR]you do not have that many items of that type");
 		} catch (CommodityNotFoundException e) {

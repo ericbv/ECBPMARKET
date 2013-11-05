@@ -31,3 +31,6 @@ commands:
   buy:
     description: sells some X in the amount of Y to the market
     usage: Example - /sell cobblestone 64
+  price:
+    description: sells some X in the amount of Y to the market
+    usage: Example - /sell cobblestone 64
