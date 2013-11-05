@@ -27,7 +27,7 @@ public class TradeController {
 		this.persister =persister;
 		this.plugin =plugin;
 	}
-	public Recipient sell(Player p,String item, int amount)throws   InvalidAmountException, NotEnoughItemsException, CommodityNotFoundException {
+	public Recipient sell(Player p,String item, int amount)throws    NotEnoughItemsException, CommodityNotFoundException {
 		Commodity c = store.getComodity(item);
 		WalletHelper wallet =new WalletHelper(p,plugin);
 		double oldBalance = wallet.getPlayerMoney(); 
