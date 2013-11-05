@@ -9,9 +9,11 @@ import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughMoneyException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughInventoryRoomException;
 import nl.ecbp.ECBPMARKET.helpers.InventoryHelper;
+import nl.ecbp.ECBPMARKET.helpers.WalletHelper;
 import nl.ecbp.ECBPMARKET.model.Commodity;
 import nl.ecbp.ECBPMARKET.model.Order;
 import nl.ecbp.ECBPMARKET.model.OrderConstructor;
+import nl.ecbp.ECBPMARKET.model.Recipient;
 import nl.ecbp.ECBPMARKET.model.store.CommodityStore;
 
 public class TradeController {
@@ -22,19 +24,20 @@ public class TradeController {
 		this.store = store;
 		this.persister =persister;
 	}
-	public void sell(Player p,String item, int amount)throws InvalidAmountException, NotEnoughItemsException, CommodityNotFoundException {
+	public Recipient sell(Player p,String item, int amount)throws InvalidAmountException, NotEnoughItemsException, CommodityNotFoundException {
 		Commodity c = store.getComodity(item);
-		
+		WalletHelper wallet =new WalletHelper(p);
+		double oldBalance = wallet.getPlayerMoney(); 
 		Order o = new OrderConstructor().GenerateOrder(true,c,amount);
-		
 		new InventoryHelper(p).takeComodityFromPlayer(c, amount);
-		
-		
-		
+		wallet.givePlayerMoney(o.getTotal());
+		c.setValue(o.getCurrentPrice());
 		persister.Persist(c);
+		return new Recipient(o.getTotal(),oldBalance,wallet.getPlayerMoney());
 	}
 
-	public void buy(Player p,String item, int amount) throws InvalidAmountException, NotEnoughMoneyException, NotEnoughInventoryRoomException {
+	public Recipient buy(Player p,String item, int amount) throws InvalidAmountException, NotEnoughMoneyException, NotEnoughInventoryRoomException {
+		return null;
 
 	}
 }

@@ -3,6 +3,7 @@ package nl.ecbp.ECBPMARKET.model;
 public class Order {
 	public double currentPrice;;
 	public double total;
+	
 	public double getCurrentPrice() {
 		return currentPrice;
 	}
