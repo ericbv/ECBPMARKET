@@ -7,8 +7,8 @@ import nl.ecbp.ECBPMARKET.exceptions.InvalidAmountException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughMoneyException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughInventoryRoomException;
+import nl.ecbp.ECBPMARKET.helpers.InventoryHelper;
 import nl.ecbp.ECBPMARKET.model.Commodity;
-import nl.ecbp.ECBPMARKET.model.InventoryHelper;
 import nl.ecbp.ECBPMARKET.model.Order;
 import nl.ecbp.ECBPMARKET.model.OrderConstructor;
 import nl.ecbp.ECBPMARKET.model.store.CommodityStore;
@@ -23,10 +23,10 @@ public class TradeController {
 		
 		Order o = new OrderConstructor().GenerateOrder(true,c,amount);
 		
-		new InventoryHelper(p).TakeFromInventory(c, amount);
+		new InventoryHelper(p).takeComodityFromPlayer(c, amount);
 	}
 
-	public void buy(String item, int amount) throws InvalidAmountException, NotEnoughMoneyException, NotEnoughInventoryRoomException {
+	public void buy(Player p,String item, int amount) throws InvalidAmountException, NotEnoughMoneyException, NotEnoughInventoryRoomException {
 
 	}
 }
