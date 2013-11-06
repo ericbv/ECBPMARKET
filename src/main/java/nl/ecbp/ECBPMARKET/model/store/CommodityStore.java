@@ -31,4 +31,12 @@ public class CommodityStore {
 		}
 		return c;
 	}
+	
+	public void removeComodity(String name) throws CommodityNotFoundException{
+		Commodity c;
+		c = map.remove(name);
+		if(c == null){
+			throw new CommodityNotFoundException();
+		}
+	}
 }
