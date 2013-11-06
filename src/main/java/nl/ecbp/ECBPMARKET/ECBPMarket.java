@@ -11,6 +11,8 @@ import nl.ecbp.ECBPMARKET.db.PersistanceController;
 import nl.ecbp.ECBPMARKET.model.Commodity;
 import nl.ecbp.ECBPMARKET.model.store.CommodityStore;
 import nl.ecbp.ECBPMARKET.views.commands.MarketCommand;
+import nl.ecbp.ECBPMARKET.views.gui.ShopGui;
+
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;

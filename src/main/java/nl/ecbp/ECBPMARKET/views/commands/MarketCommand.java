@@ -38,6 +38,7 @@ public class MarketCommand implements CommandExecutor {
 				{
 				case "price":
 					try {
+						
 						sender.sendMessage(ChatColor.WHITE
 								+ "Price:"
 								+ ChatColor.GREEN
