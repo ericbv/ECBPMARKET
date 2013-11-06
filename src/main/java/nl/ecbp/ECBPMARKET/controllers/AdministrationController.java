@@ -10,6 +10,12 @@ public class AdministrationController {
 	private CommodityStore store;
 	private ECBPMarket plugin;
 
+	public AdministrationController(CommodityStore store, ECBPMarket plugin) {
+		super();
+		this.store = store;
+		this.plugin = plugin;
+	}
+
 	public void modifyCommodity(String itemName, int id, double value,
 			double maxValue, double minValue, double changeRate, int data)
 			throws CommodityNotFoundException {
@@ -32,6 +38,7 @@ public class AdministrationController {
 		} else {
 			Commodity c = new Commodity(id, itemName, value, maxValue,
 					minValue, changeRate, data);
+			store.addComodity(c);
 			plugin.getDb().Save(c);
 		}
 	}
@@ -39,5 +46,9 @@ public class AdministrationController {
 	public void removeCommodity(String itemName) throws CommodityNotFoundException {	
 		store.removeComodity(itemName);
 		plugin.getDb().remove(itemName);
+	}
+	
+	public Commodity getCommodityData(String itemName) throws CommodityNotFoundException {	
+		return store.getComodity(itemName);
 	}
 }

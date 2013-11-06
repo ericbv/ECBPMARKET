@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import nl.ecbp.ECBPMARKET.controllers.AdministrationController;
 import nl.ecbp.ECBPMARKET.controllers.TradeController;
 import nl.ecbp.ECBPMARKET.db.CommodityPersister;
 import nl.ecbp.ECBPMARKET.db.PersistanceController;
@@ -27,23 +28,24 @@ public class ECBPMarket extends JavaPlugin {
 		if (!getDataFolder().exists()) {
 			getDataFolder().mkdir();
 		}
-		setupPermissions(); // Smickles thinks this is what we're supposed to do
-							// for permissions via vault
-		setupEconomy(); // Smickles thinks this is what we're supposed to do for
-						// economy via vault
+		setupPermissions();
+		setupEconomy();
 		setupDB();
-		//TODO REMOVE TEST STUFF
-		Commodity c = new Commodity(12,"sand",100.0,10000.0,0.01,0.01,0);
+		// TODO REMOVE TEST STUFF
+		Commodity c = new Commodity(12, "sand", 100.0, 10000.0, 0.01, 0.01, 0);
 		new CommodityPersister(this).Persist(c);
 		logger.info(pluginFile.getName() + " version "
 				+ pluginFile.getVersion() + " enabled");
-		TradeController con = new TradeController(new CommodityStore(db), new CommodityPersister(this),this);
-		getCommand("market").setExecutor(new MarketCommand(this, con));
+		CommodityStore store = new CommodityStore(db);
+		TradeController con = new TradeController(store,new CommodityPersister(this), this);
+		AdministrationController aCon = new AdministrationController(store,this);
+		
+		getCommand("market").setExecutor(new MarketCommand(this, con, aCon));
 	}
 
 	private void setupDB() {
 		db = new PersistanceController(this);
-		
+
 	}
 
 	/**
@@ -84,7 +86,8 @@ public class ECBPMarket extends JavaPlugin {
 	public Economy getEconomy() {
 		return economy;
 	}
-	public PersistanceController getDb(){
+
+	public PersistanceController getDb() {
 		return db;
 	}
 

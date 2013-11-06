@@ -1,12 +1,15 @@
 package nl.ecbp.ECBPMARKET.views.commands;
 
 import nl.ecbp.ECBPMARKET.ECBPMarket;
+import nl.ecbp.ECBPMARKET.controllers.AdministrationController;
 import nl.ecbp.ECBPMARKET.controllers.TradeController;
 import nl.ecbp.ECBPMARKET.exceptions.CommodityNotFoundException;
+import nl.ecbp.ECBPMARKET.exceptions.DuplicateCommodityException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidAmountException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidArgumentsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughMoneyException;
+import nl.ecbp.ECBPMARKET.model.Commodity;
 import nl.ecbp.ECBPMARKET.model.Recipient;
 
 import org.bukkit.ChatColor;
@@ -19,10 +22,13 @@ public class MarketCommand implements CommandExecutor {
 
 	private ECBPMarket plugin;
 	private TradeController con;
+	private AdministrationController aCon;
 
-	public MarketCommand(ECBPMarket plugin, TradeController con) {
+	public MarketCommand(ECBPMarket plugin, TradeController con,
+			AdministrationController aCon) {
 		this.plugin = plugin;
 		this.con = con;
+		this.aCon = aCon;
 	}
 
 	public boolean onCommand(CommandSender sender, Command command,
@@ -33,7 +39,10 @@ public class MarketCommand implements CommandExecutor {
 				case "price":
 					try {
 						sender.sendMessage(ChatColor.WHITE
-								+"Price:" +ChatColor.GREEN+executePriceCommand(sender, command, label, args));
+								+ "Price:"
+								+ ChatColor.GREEN
+								+ executePriceCommand(sender, command, label,
+										args));
 					} catch (InvalidArgumentsException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Wrong arguments");
@@ -43,6 +52,7 @@ public class MarketCommand implements CommandExecutor {
 								+ "[ERROR]That commodity is not avalible");
 					}
 					break;
+
 				case "sell":
 					try {
 						Recipient R = executeSellCommand(sender, command,
@@ -98,15 +108,154 @@ public class MarketCommand implements CommandExecutor {
 								+ "[ERROR]That commodity is not avalible");
 					}
 					break;
+
+				case "add":
+					try {
+						executeAddCommand(sender, command, label, args);
+					} catch (DuplicateCommodityException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]A commodity with that name is already in the market");
+					} catch (InvalidArgumentsException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]Wrong arguments");
+						sender.sendMessage("SYNTAX:/market add [item] [id] [value] [minvalue] [maxvalue] [changeRate] [data]");
+					}
+					break;
+
+				case "modify":
+					try {
+						executeModifyCommand(sender, command, label, args);
+					} catch (InvalidArgumentsException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]Wrong arguments");
+						sender.sendMessage("SYNTAX:/market modify [item] [id] [value] [minvalue] [maxvalue] [changeRate] [data]");
+					} catch (CommodityNotFoundException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]That commodity is not avalible");
+					}
+					break;
+
+				case "remove":
+					try {
+						executeRemoveCommand(sender, command, label, args);
+					} catch (InvalidArgumentsException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]Wrong arguments");
+						sender.sendMessage("SYNTAX:/market remove [item]");
+					} catch (CommodityNotFoundException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]That commodity is not avalible");
+					}
+					break;
+
+				case "data":
+					try {
+						Commodity c = executeDataCommand(sender, command,
+								label, args);
+						sender.sendMessage(ChatColor.WHITE + "Name:"
+								+ ChatColor.GREEN + c.getName());
+						sender.sendMessage(ChatColor.WHITE + "Price:"
+								+ ChatColor.GREEN + c.getValue());
+						sender.sendMessage(ChatColor.WHITE + "Min Price:"
+								+ ChatColor.GREEN + c.getMinValue());
+						sender.sendMessage(ChatColor.WHITE + "Max Price:"
+								+ ChatColor.GREEN + c.getMaxValue());
+						sender.sendMessage(ChatColor.WHITE + "ChangeRate:"
+								+ ChatColor.GREEN + c.getChangeRate());
+						sender.sendMessage(ChatColor.WHITE + "Id:"
+								+ ChatColor.GREEN + c.getId());
+						sender.sendMessage(ChatColor.WHITE + "Data:"
+								+ ChatColor.GREEN + c.getData());
+
+					} catch (InvalidArgumentsException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]Wrong arguments");
+						sender.sendMessage("SYNTAX:/market data [item]");
+					} catch (CommodityNotFoundException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]That commodity is not avalible");
+					}
+					break;
+
 				default:
-					sender.sendMessage(ChatColor.RED
-							+ "[ERROR]Wrong arguments");
-					sender.sendMessage("SYNTAX:/market [buy|sell|price]");
-					
+					sender.sendMessage(ChatColor.RED + "[ERROR]Wrong arguments");
+					sender.sendMessage("SYNTAX:/market [buy|sell|price|add|modify|remove|data]");
+
 				}
 
 		}
 		return false;
+	}
+
+	private Commodity executeDataCommand(CommandSender sender, Command command,
+			String label, String[] args) throws InvalidArgumentsException,
+			CommodityNotFoundException {
+		if (sender instanceof Player) {
+			if (args.length == 2) {
+				return aCon.getCommodityData(args[1].toString());
+
+			} else {
+				throw new InvalidArgumentsException();
+			}
+		}
+		return null;
+	}
+
+	private void executeRemoveCommand(CommandSender sender, Command command,
+			String label, String[] args) throws InvalidArgumentsException,
+			CommodityNotFoundException {
+		if (sender instanceof Player) {
+			if (args.length == 2) {
+				aCon.removeCommodity(args[1].toString());
+
+			} else {
+				throw new InvalidArgumentsException();
+			}
+		}
+	}
+
+	private void executeAddCommand(CommandSender sender, Command command,
+			String label, String[] args) throws DuplicateCommodityException,
+			InvalidArgumentsException {
+		if (sender instanceof Player) {
+			if (args.length == 8) {
+				try {
+					aCon.addCommodity(args[1].toString(),
+							Integer.parseInt(args[2]),
+							Double.parseDouble(args[3]),
+							Double.parseDouble(args[4]),
+							Double.parseDouble(args[5]),
+							Double.parseDouble(args[6]),
+							Integer.parseInt(args[7]));
+				} catch (NumberFormatException e) {
+					throw new InvalidArgumentsException();
+				}
+			} else {
+				throw new InvalidArgumentsException();
+			}
+		}
+	}
+
+	private void executeModifyCommand(CommandSender sender, Command command,
+			String label, String[] args) throws InvalidArgumentsException,
+			CommodityNotFoundException {
+		if (sender instanceof Player) {
+			if (args.length == 8) {
+				try {
+					aCon.modifyCommodity(args[1].toString(),
+							Integer.parseInt(args[2]),
+							Double.parseDouble(args[3]),
+							Double.parseDouble(args[4]),
+							Double.parseDouble(args[5]),
+							Double.parseDouble(args[6]),
+							Integer.parseInt(args[7]));
+				} catch (NumberFormatException e) {
+					throw new InvalidArgumentsException();
+				}
+			} else {
+				throw new InvalidArgumentsException();
+			}
+		}
 	}
 
 	private double executePriceCommand(CommandSender sender, Command command,
