@@ -9,10 +9,7 @@ import nl.ecbp.ECBPMARKET.db.CommodityPersister;
 import nl.ecbp.ECBPMARKET.db.PersistanceController;
 import nl.ecbp.ECBPMARKET.model.Commodity;
 import nl.ecbp.ECBPMARKET.model.store.CommodityStore;
-import nl.ecbp.ECBPMARKET.views.commands.BuyCommand;
-import nl.ecbp.ECBPMARKET.views.commands.PriceCommand;
-import nl.ecbp.ECBPMARKET.views.commands.SellCommand;
-
+import nl.ecbp.ECBPMARKET.views.commands.MarketCommand;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,9 +38,7 @@ public class ECBPMarket extends JavaPlugin {
 		logger.info(pluginFile.getName() + " version "
 				+ pluginFile.getVersion() + " enabled");
 		TradeController con = new TradeController(new CommodityStore(db), new CommodityPersister(this),this);
-		getCommand("sell").setExecutor(new SellCommand(this, con));
-		getCommand("buy").setExecutor(new BuyCommand(this, con));
-		getCommand("price").setExecutor(new PriceCommand(this, con));
+		getCommand("market").setExecutor(new MarketCommand(this, con));
 	}
 
 	private void setupDB() {

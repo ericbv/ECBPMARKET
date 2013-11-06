@@ -25,12 +25,4 @@ version: 0.5
 author: ericbv
 softdepend: [Vault]
 commands:
-  sell:
-    description: buys some X in the amount of Y from the market
-    usage: Example - /buy cobblestone 64
-  buy:
-    description: sells some X in the amount of Y to the market
-    usage: Example - /sell cobblestone 64
-  price:
-    description: sells some X in the amount of Y to the market
-    usage: Example - /sell cobblestone 64
+  market:
