@@ -12,6 +12,9 @@ import nl.ecbp.ECBPMARKET.model.Commodity;
 import nl.ecbp.ECBPMARKET.model.store.CommodityStore;
 import nl.ecbp.ECBPMARKET.views.commands.MarketCommand;
 import nl.ecbp.ECBPMARKET.views.gui.ShopGui;
+import nl.ecbp.ECBPMARKET.views.gui.commands.GuiShopCommand;
+import nl.ecbp.ECBPMARKET.views.gui.listeners.ShopBuyListener;
+import nl.ecbp.ECBPMARKET.views.gui.listeners.ShopSellListener;
 
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -38,11 +41,18 @@ public class ECBPMarket extends JavaPlugin {
 		new CommodityPersister(this).Persist(c);
 		logger.info(pluginFile.getName() + " version "
 				+ pluginFile.getVersion() + " enabled");
-		CommodityStore store = new CommodityStore(db);
+		ShopGui gui = new ShopGui();
+		CommodityStore store = new CommodityStore(db,gui);
 		TradeController con = new TradeController(store,new CommodityPersister(this), this);
 		AdministrationController aCon = new AdministrationController(store,this);
 		
+		
+		ShopSellListener sellListener = new ShopSellListener(this,con);
+		getServer().getPluginManager().registerEvents(sellListener, this);
+		ShopBuyListener buyListener = new ShopBuyListener(this,con);
+		getServer().getPluginManager().registerEvents(buyListener, this);
 		getCommand("market").setExecutor(new MarketCommand(this, con, aCon));
+		getCommand("guimarket").setExecutor(new GuiShopCommand(gui));
 	}
 
 	private void setupDB() {

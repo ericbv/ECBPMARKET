@@ -32,6 +32,7 @@ public class ShopGui implements InventoryHolder {
 		ItemMeta Meta = Item1.getItemMeta();
 		desc.add("Price:" + c.getValue());
 		desc.add("");
+		desc.add(ChatColor.GRAY + "SHIFT Click for a stack");
 		desc.add(ChatColor.GRAY + "<Left Click to Buy>");
 		desc.add(ChatColor.GRAY + "<Right Click to Sell>");
 		Meta.setLore(desc);
