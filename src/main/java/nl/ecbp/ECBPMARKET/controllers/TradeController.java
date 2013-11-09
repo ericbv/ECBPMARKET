@@ -29,6 +29,13 @@ public class TradeController {
 		this.plugin = plugin;
 	}
 
+	public Recipient sell(Player p, int id, int data, int amount)
+			throws NotEnoughItemsException, CommodityNotFoundException,
+			InvalidAmountException {
+		String item;
+		item = store.getComodityString(id,data);
+		return sell(p, item, amount);
+	}
 	public Recipient sell(Player p, String item, int amount)
 			throws NotEnoughItemsException, CommodityNotFoundException,
 			InvalidAmountException {
@@ -39,7 +46,12 @@ public class TradeController {
 		}
 		return null;
 	}
-
+	public Recipient buy(Player p, int id, int data, int amount) throws NotEnoughMoneyException, CommodityNotFoundException, InvalidAmountException
+			 {
+		String item;
+		item = store.getComodityString(id,data);
+		return buy(p, item, amount);
+	}
 	public Recipient buy(Player p, String item, int amount)
 			throws NotEnoughMoneyException, CommodityNotFoundException, InvalidAmountException {
 		try {
