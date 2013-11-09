@@ -5,6 +5,7 @@ import nl.ecbp.ECBPMARKET.controllers.AdministrationController;
 import nl.ecbp.ECBPMARKET.controllers.TradeController;
 import nl.ecbp.ECBPMARKET.exceptions.CommodityNotFoundException;
 import nl.ecbp.ECBPMARKET.exceptions.DuplicateCommodityException;
+import nl.ecbp.ECBPMARKET.exceptions.InsufficientPermissionException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidAmountException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidArgumentsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
@@ -39,16 +40,13 @@ public class MarketCommand implements CommandExecutor {
 				{
 				case "price":
 					try {
-						double value = executePriceCommand(sender, command, label,
-								args);
-						sender.sendMessage(ChatColor.WHITE
-								+ "Buy Price:"
+						double value = executePriceCommand(sender, command,
+								label, args);
+						sender.sendMessage(ChatColor.WHITE + "Buy Price:"
+								+ ChatColor.GREEN + StaticRounder.round(value));
+						sender.sendMessage(ChatColor.WHITE + "Sell Price:"
 								+ ChatColor.GREEN
-								+ StaticRounder.round(value));
-						sender.sendMessage(ChatColor.WHITE
-								+ "Sell Price:"
-								+ ChatColor.GREEN
-								+  StaticRounder.round(value*0.8));
+								+ StaticRounder.round(value * 0.8));
 					} catch (InvalidArgumentsException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Wrong arguments");
@@ -64,13 +62,15 @@ public class MarketCommand implements CommandExecutor {
 						Recipient R = executeSellCommand(sender, command,
 								label, args);
 						sender.sendMessage(ChatColor.WHITE + "[Money Recieved]"
-								+ ChatColor.GREEN +  StaticRounder.round(R.getTotal()));
+								+ ChatColor.GREEN
+								+ StaticRounder.round(R.getTotal()));
 						sender.sendMessage(ChatColor.WHITE + "[OLD BALANCE]"
 								+ ChatColor.GRAY + R.getOldBalance());
 						sender.sendMessage(ChatColor.WHITE + "[NEW BALANCE]"
 								+ ChatColor.GREEN + R.getNewBalance());
 						sender.sendMessage(ChatColor.WHITE + "[NEW PRICE]"
-								+ ChatColor.BLUE +  StaticRounder.round(R.getNewPrice()));
+								+ ChatColor.BLUE
+								+ StaticRounder.round(R.getNewPrice()));
 					} catch (InvalidAmountException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Thats not a Valid amount, it should be greater than 0");
@@ -92,13 +92,15 @@ public class MarketCommand implements CommandExecutor {
 						Recipient R = executeBuyCommand(sender, command, label,
 								args);
 						sender.sendMessage(ChatColor.WHITE + "[Total Cost]"
-								+ ChatColor.GREEN +  StaticRounder.round(R.getTotal()));
+								+ ChatColor.GREEN
+								+ StaticRounder.round(R.getTotal()));
 						sender.sendMessage(ChatColor.WHITE + "[OLD BALANCE]"
 								+ ChatColor.GRAY + R.getOldBalance());
 						sender.sendMessage(ChatColor.WHITE + "[NEW BALANCE]"
 								+ ChatColor.GREEN + R.getNewBalance());
 						sender.sendMessage(ChatColor.WHITE + "[NEW PRICE]"
-								+ ChatColor.BLUE +  StaticRounder.round(R.getNewPrice()));
+								+ ChatColor.BLUE
+								+ StaticRounder.round(R.getNewPrice()));
 					} catch (InvalidArgumentsException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Wrong arguments");
@@ -125,6 +127,9 @@ public class MarketCommand implements CommandExecutor {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Wrong arguments");
 						sender.sendMessage("SYNTAX:/market add [item] [id] [value] [minvalue] [maxvalue] [changeRate] [data]");
+					} catch (InsufficientPermissionException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]Operation Denied");
 					}
 					break;
 
@@ -138,6 +143,9 @@ public class MarketCommand implements CommandExecutor {
 					} catch (CommodityNotFoundException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]That commodity is not avalible");
+					} catch (InsufficientPermissionException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]Operation Denied");
 					}
 					break;
 
@@ -151,6 +159,9 @@ public class MarketCommand implements CommandExecutor {
 					} catch (CommodityNotFoundException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]That commodity is not avalible");
+					} catch (InsufficientPermissionException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]Operation Denied");
 					}
 					break;
 
@@ -161,7 +172,8 @@ public class MarketCommand implements CommandExecutor {
 						sender.sendMessage(ChatColor.WHITE + "Name:"
 								+ ChatColor.GREEN + c.getName());
 						sender.sendMessage(ChatColor.WHITE + "Price:"
-								+ ChatColor.GREEN +  StaticRounder.round(c.getValue()));
+								+ ChatColor.GREEN
+								+ StaticRounder.round(c.getValue()));
 						sender.sendMessage(ChatColor.WHITE + "Min Price:"
 								+ ChatColor.GREEN + c.getMinValue());
 						sender.sendMessage(ChatColor.WHITE + "Max Price:"
@@ -180,6 +192,9 @@ public class MarketCommand implements CommandExecutor {
 					} catch (CommodityNotFoundException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]That commodity is not avalible");
+					} catch (InsufficientPermissionException e) {
+						sender.sendMessage(ChatColor.RED
+								+ "[ERROR]Operation Denied");
 					}
 					break;
 
@@ -195,13 +210,17 @@ public class MarketCommand implements CommandExecutor {
 
 	private Commodity executeDataCommand(CommandSender sender, Command command,
 			String label, String[] args) throws InvalidArgumentsException,
-			CommodityNotFoundException {
+			CommodityNotFoundException, InsufficientPermissionException {
 		if (sender instanceof Player) {
-			if (args.length == 2) {
-				return aCon.getCommodityData(args[1].toString());
+			if (plugin.getPermission().has(sender, "ECBPMarket.admin")) {
+				if (args.length == 2) {
+					return aCon.getCommodityData(args[1].toString());
 
+				} else {
+					throw new InvalidArgumentsException();
+				}
 			} else {
-				throw new InvalidArgumentsException();
+				throw new InsufficientPermissionException();
 			}
 		}
 		return null;
@@ -209,58 +228,71 @@ public class MarketCommand implements CommandExecutor {
 
 	private void executeRemoveCommand(CommandSender sender, Command command,
 			String label, String[] args) throws InvalidArgumentsException,
-			CommodityNotFoundException {
-		if (sender instanceof Player) {
-			if (args.length == 2) {
-				aCon.removeCommodity(args[1].toString());
+			CommodityNotFoundException, InsufficientPermissionException {
+		if (plugin.getPermission().has(sender, "ECBPMarket.admin")) {
+			if (sender instanceof Player) {
+				if (args.length == 2) {
+					aCon.removeCommodity(args[1].toString());
 
-			} else {
-				throw new InvalidArgumentsException();
+				} else {
+					throw new InvalidArgumentsException();
+				}
 			}
+		} else {
+			throw new InsufficientPermissionException();
 		}
 	}
 
 	private void executeAddCommand(CommandSender sender, Command command,
 			String label, String[] args) throws DuplicateCommodityException,
-			InvalidArgumentsException {
-		if (sender instanceof Player) {
-			if (args.length == 8) {
-				try {
-					aCon.addCommodity(args[1].toString(),
-							Integer.parseInt(args[2]),
-							Double.parseDouble(args[3]),
-							Double.parseDouble(args[4]),
-							Double.parseDouble(args[5]),
-							Double.parseDouble(args[6]),
-							Integer.parseInt(args[7]));
-				} catch (NumberFormatException e) {
+			InvalidArgumentsException, InsufficientPermissionException {
+		if (plugin.getPermission().has(sender, "ECBPMarket.admin")) {
+			if (sender instanceof Player) {
+				if (args.length == 8) {
+					try {
+						aCon.addCommodity(args[1].toString(),
+								Integer.parseInt(args[2]),
+								Double.parseDouble(args[3]),
+								Double.parseDouble(args[4]),
+								Double.parseDouble(args[5]),
+								Double.parseDouble(args[6]),
+								Integer.parseInt(args[7]));
+					} catch (NumberFormatException e) {
+						throw new InvalidArgumentsException();
+					}
+				} else {
 					throw new InvalidArgumentsException();
 				}
-			} else {
-				throw new InvalidArgumentsException();
 			}
+		} else {
+			throw new InsufficientPermissionException();
 		}
+
 	}
 
 	private void executeModifyCommand(CommandSender sender, Command command,
 			String label, String[] args) throws InvalidArgumentsException,
-			CommodityNotFoundException {
-		if (sender instanceof Player) {
-			if (args.length == 8) {
-				try {
-					aCon.modifyCommodity(args[1].toString(),
-							Integer.parseInt(args[2]),
-							Double.parseDouble(args[3]),
-							Double.parseDouble(args[4]),
-							Double.parseDouble(args[5]),
-							Double.parseDouble(args[6]),
-							Integer.parseInt(args[7]));
-				} catch (NumberFormatException e) {
+			CommodityNotFoundException, InsufficientPermissionException {
+		if (plugin.getPermission().has(sender, "ECBPMarket.admin")) {
+			if (sender instanceof Player) {
+				if (args.length == 8) {
+					try {
+						aCon.modifyCommodity(args[1].toString(),
+								Integer.parseInt(args[2]),
+								Double.parseDouble(args[3]),
+								Double.parseDouble(args[4]),
+								Double.parseDouble(args[5]),
+								Double.parseDouble(args[6]),
+								Integer.parseInt(args[7]));
+					} catch (NumberFormatException e) {
+						throw new InvalidArgumentsException();
+					}
+				} else {
 					throw new InvalidArgumentsException();
 				}
-			} else {
-				throw new InvalidArgumentsException();
 			}
+		} else {
+			throw new InsufficientPermissionException();
 		}
 	}
 

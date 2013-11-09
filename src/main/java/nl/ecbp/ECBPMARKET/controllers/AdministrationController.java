@@ -5,10 +5,12 @@ import nl.ecbp.ECBPMARKET.exceptions.CommodityNotFoundException;
 import nl.ecbp.ECBPMARKET.exceptions.DuplicateCommodityException;
 import nl.ecbp.ECBPMARKET.model.Commodity;
 import nl.ecbp.ECBPMARKET.model.store.CommodityStore;
+import nl.ecbp.ECBPMARKET.views.gui.ShopGui;
 
 public class AdministrationController {
 	private CommodityStore store;
 	private ECBPMarket plugin;
+	private ShopGui gui;
 
 	public AdministrationController(CommodityStore store, ECBPMarket plugin) {
 		super();
@@ -40,6 +42,7 @@ public class AdministrationController {
 					minValue, changeRate, data);
 			store.addComodity(c);
 			plugin.getDb().Save(c);
+			gui.addItem(c);
 		}
 	}
 
