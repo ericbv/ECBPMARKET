@@ -30,7 +30,8 @@ public class ShopGui implements InventoryHolder {
 		ArrayList<String> desc = new ArrayList<String>();
 		ItemStack Item1 = new ItemStack(c.getId(), 1, (short) c.getData());
 		ItemMeta Meta = Item1.getItemMeta();
-		desc.add("Price:" + c.getValue());
+		desc.add("Buy Price:" + c.getValue());
+		desc.add("Sell Price:" + c.getValue()*0.8);
 		desc.add("");
 		desc.add(ChatColor.GRAY + "SHIFT Click for a stack");
 		desc.add(ChatColor.GRAY + "<Left Click to Buy>");

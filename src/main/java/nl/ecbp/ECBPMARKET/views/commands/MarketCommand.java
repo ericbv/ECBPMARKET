@@ -38,12 +38,16 @@ public class MarketCommand implements CommandExecutor {
 				{
 				case "price":
 					try {
-						
+						double value = executePriceCommand(sender, command, label,
+								args);
 						sender.sendMessage(ChatColor.WHITE
-								+ "Price:"
+								+ "Buy Price:"
 								+ ChatColor.GREEN
-								+ executePriceCommand(sender, command, label,
-										args));
+								+ value);
+						sender.sendMessage(ChatColor.WHITE
+								+ "Sell Price:"
+								+ ChatColor.GREEN
+								+ value*0.8);
 					} catch (InvalidArgumentsException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Wrong arguments");
