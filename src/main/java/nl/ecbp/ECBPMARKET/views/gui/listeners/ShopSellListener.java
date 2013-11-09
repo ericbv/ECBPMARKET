@@ -16,7 +16,9 @@ import nl.ecbp.ECBPMARKET.exceptions.CommodityNotFoundException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidAmountException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidArgumentsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
+import nl.ecbp.ECBPMARKET.helpers.StaticRounder;
 import nl.ecbp.ECBPMARKET.model.Recipient;
+import nl.ecbp.ECBPMARKET.views.gui.ShopGui;
 
 public class ShopSellListener implements Listener {
 	public static ECBPMarket plugin;
@@ -54,13 +56,14 @@ public class ShopSellListener implements Listener {
 					r= con.sell(p, id, data, 1);
 				}
 				p.sendMessage(ChatColor.WHITE + "[Money Recieved]"
-						+ ChatColor.GREEN + r.getTotal());
+						+ ChatColor.GREEN + StaticRounder.round(r.getTotal()));
 				p.sendMessage(ChatColor.WHITE + "[OLD BALANCE]"
 						+ ChatColor.GRAY + r.getOldBalance());
 				p.sendMessage(ChatColor.WHITE + "[NEW BALANCE]"
 						+ ChatColor.GREEN + r.getNewBalance());
 				p.sendMessage(ChatColor.WHITE + "[NEW PRICE]"
-						+ ChatColor.BLUE + r.getNewPrice());
+						+ ChatColor.BLUE + StaticRounder.round(r.getNewPrice()));
+				Clicked.setItemMeta(ShopGui.generateMeta(r.getC(), Clicked));
 			} catch (InvalidAmountException e) {
 				p.sendMessage(ChatColor.RED
 						+ "[ERROR]Thats not a Valid amount, it should be greater than 0");

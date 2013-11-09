@@ -9,6 +9,7 @@ import nl.ecbp.ECBPMARKET.exceptions.InvalidAmountException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidArgumentsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughMoneyException;
+import nl.ecbp.ECBPMARKET.helpers.StaticRounder;
 import nl.ecbp.ECBPMARKET.model.Commodity;
 import nl.ecbp.ECBPMARKET.model.Recipient;
 
@@ -43,11 +44,11 @@ public class MarketCommand implements CommandExecutor {
 						sender.sendMessage(ChatColor.WHITE
 								+ "Buy Price:"
 								+ ChatColor.GREEN
-								+ value);
+								+ StaticRounder.round(value));
 						sender.sendMessage(ChatColor.WHITE
 								+ "Sell Price:"
 								+ ChatColor.GREEN
-								+ value*0.8);
+								+  StaticRounder.round(value*0.8));
 					} catch (InvalidArgumentsException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Wrong arguments");
@@ -63,13 +64,13 @@ public class MarketCommand implements CommandExecutor {
 						Recipient R = executeSellCommand(sender, command,
 								label, args);
 						sender.sendMessage(ChatColor.WHITE + "[Money Recieved]"
-								+ ChatColor.GREEN + R.getTotal());
+								+ ChatColor.GREEN +  StaticRounder.round(R.getTotal()));
 						sender.sendMessage(ChatColor.WHITE + "[OLD BALANCE]"
 								+ ChatColor.GRAY + R.getOldBalance());
 						sender.sendMessage(ChatColor.WHITE + "[NEW BALANCE]"
 								+ ChatColor.GREEN + R.getNewBalance());
 						sender.sendMessage(ChatColor.WHITE + "[NEW PRICE]"
-								+ ChatColor.BLUE + R.getNewPrice());
+								+ ChatColor.BLUE +  StaticRounder.round(R.getNewPrice()));
 					} catch (InvalidAmountException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Thats not a Valid amount, it should be greater than 0");
@@ -91,13 +92,13 @@ public class MarketCommand implements CommandExecutor {
 						Recipient R = executeBuyCommand(sender, command, label,
 								args);
 						sender.sendMessage(ChatColor.WHITE + "[Total Cost]"
-								+ ChatColor.GREEN + R.getTotal());
+								+ ChatColor.GREEN +  StaticRounder.round(R.getTotal()));
 						sender.sendMessage(ChatColor.WHITE + "[OLD BALANCE]"
 								+ ChatColor.GRAY + R.getOldBalance());
 						sender.sendMessage(ChatColor.WHITE + "[NEW BALANCE]"
 								+ ChatColor.GREEN + R.getNewBalance());
 						sender.sendMessage(ChatColor.WHITE + "[NEW PRICE]"
-								+ ChatColor.BLUE + R.getNewPrice());
+								+ ChatColor.BLUE +  StaticRounder.round(R.getNewPrice()));
 					} catch (InvalidArgumentsException e) {
 						sender.sendMessage(ChatColor.RED
 								+ "[ERROR]Wrong arguments");
@@ -160,7 +161,7 @@ public class MarketCommand implements CommandExecutor {
 						sender.sendMessage(ChatColor.WHITE + "Name:"
 								+ ChatColor.GREEN + c.getName());
 						sender.sendMessage(ChatColor.WHITE + "Price:"
-								+ ChatColor.GREEN + c.getValue());
+								+ ChatColor.GREEN +  StaticRounder.round(c.getValue()));
 						sender.sendMessage(ChatColor.WHITE + "Min Price:"
 								+ ChatColor.GREEN + c.getMinValue());
 						sender.sendMessage(ChatColor.WHITE + "Max Price:"

@@ -1,17 +1,23 @@
 package nl.ecbp.ECBPMARKET.model;
 
 public class Recipient {
-	
+
+	private Commodity c;	
 private double total;
 private double oldBalance;
 private double newBalance;
 private double newPrice;
 
-public Recipient(double total,double oldBalance,double newBalance,double newPrice) {
+public Recipient(double total,double oldBalance,double newBalance,double newPrice,Commodity c) {
 	this.total = total;
 	this.oldBalance =oldBalance;
 	this.newBalance=newBalance;
 	this.newPrice =newPrice;
+	this.c =c;
+}
+
+public Commodity getC() {
+	return c;
 }
 
 public double getTotal() {

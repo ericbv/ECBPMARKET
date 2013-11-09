@@ -7,7 +7,9 @@ import nl.ecbp.ECBPMARKET.exceptions.InvalidAmountException;
 import nl.ecbp.ECBPMARKET.exceptions.InvalidArgumentsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughItemsException;
 import nl.ecbp.ECBPMARKET.exceptions.NotEnoughMoneyException;
+import nl.ecbp.ECBPMARKET.helpers.StaticRounder;
 import nl.ecbp.ECBPMARKET.model.Recipient;
+import nl.ecbp.ECBPMARKET.views.gui.ShopGui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -54,13 +56,14 @@ public class ShopBuyListener implements Listener {
 					r = con.buy(p, id, data, 64);
 				}
 				p.sendMessage(ChatColor.WHITE + "[Total cost]"
-						+ ChatColor.GREEN + r.getTotal());
+						+ ChatColor.GREEN + StaticRounder.round(r.getTotal()));
 				p.sendMessage(ChatColor.WHITE + "[OLD BALANCE]"
 						+ ChatColor.GRAY + r.getOldBalance());
 				p.sendMessage(ChatColor.WHITE + "[NEW BALANCE]"
 						+ ChatColor.GREEN + r.getNewBalance());
 				p.sendMessage(ChatColor.WHITE + "[NEW PRICE]" + ChatColor.BLUE
-						+ r.getNewPrice());
+						+ StaticRounder.round(r.getNewPrice()));
+				Clicked.setItemMeta(ShopGui.generateMeta(r.getC(), Clicked));
 			} catch (InvalidAmountException e) {
 				p.sendMessage(ChatColor.RED
 						+ "[ERROR]Thats not a Valid amount, it should be greater than 0");

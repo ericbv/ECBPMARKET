@@ -83,7 +83,7 @@ public class TradeController {
 		c.setValue(o.getCurrentPrice());
 		persister.Persist(c);
 		return new Recipient(o.getTotal(), oldBalance, wallet.getPlayerMoney(),
-				o.getCurrentPrice());
+				o.getCurrentPrice(),c);
 	}
 	
 	private void doBuyPart(Player p,Order o,WalletHelper wallet,int amount,Commodity c) throws NotEnoughMoneyException, InvalidAmountException{

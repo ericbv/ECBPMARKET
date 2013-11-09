@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>nl.ecbp</groupId>
   <artifactId>ECBPMARKET</artifactId>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.1.3-SNAPSHOT</version>
   <build>
     <plugins>
       <plugin>
@@ -12,6 +12,23 @@
         <configuration>
           <target>1.7</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>autoincrement-versions-maven-plugin</artifactId>
+        <version>2.0-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <id>update-pom-versions</id>
+            <phase>package</phase>
+            <goals>
+              <goal>increment</goal>
+            </goals>
+            <configuration>
+              <autoIncrementVersion>true</autoIncrementVersion>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -47,6 +64,14 @@
       <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
     </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <snapshots />
+      <id>autoincrement-versions-maven-plugin</id>
+      <name>autoincrement-versions-maven-plugin</name>
+      <url>http://autoincrement-versions-maven-plugin.googlecode.com/svn/repo</url>
+    </pluginRepository>
+  </pluginRepositories>
   <dependencies>
     <dependency>
       <groupId>org.bukkit</groupId>
